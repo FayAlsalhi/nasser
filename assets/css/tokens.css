@@ -1,0 +1,158 @@
+/* ==========================================================================
+   TOKENS — نظام التصميم المركزي
+   كل قيمة في المشروع تأتي من هنا. ممنوع استخدام أرقام عشوائية في بقية الملفات.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* ---------- 1. COLOR ------------------------------------------------- */
+  --c-black:        #000000;   /* خلفية الصفحة الأساسية */
+  --c-ink:          #141414;   /* أسطح داكنة مرفوعة (الفوتر) */
+  --c-ink-2:        #1c1c1c;   /* بطاقات / صفوف الخدمات */
+  --c-ink-3:        #232323;   /* حواف ناعمة */
+  --c-cream:        #FAF5EA;   /* النص الأساسي على الداكن */
+  --c-cream-dim:    #FAF5EAB3; /* نص ثانوي 70% */
+  --c-cream-faint:  #FAF5EA40; /* حدود / فواصل */
+  /* مسحوب بالعيّنة من خلفية استوديو صورة ناصر (#D4D4D4 هو الأكثر تكراراً)
+     فتبدو الأقسام امتداداً للصورة لا لوناً غريباً عنها. محايد تماماً R=G=B. */
+  --c-stage:        #D8D8D8;
+  /* توهّج التفاعل — ضوء دافئ كإضاءة الاستوديو */
+  --glow:           #FF6017;
+  --glow-soft:      rgb(255 96 23 / 28%);
+  --glow-strong:    rgb(255 96 23 / 55%);
+  --c-orange:       #FF6017;   /* الحالة النشطة / التوكيد */
+  --c-white:        #FFFFFF;
+  --c-fog:          #E8E8E6;   /* خلفية الهيرو الفاتحة */
+  --c-glass:        rgba(255, 255, 255, .10);
+  --c-glass-line:   rgba(255, 255, 255, .18);
+
+  /* أدوار دلالية (تُقلب داخل الأقسام الفاتحة) */
+  --bg:             var(--c-black);
+  --fg:             var(--c-cream);
+  --fg-muted:       var(--c-cream-dim);
+  --rule:           var(--c-cream-faint);
+  --accent:         var(--c-stage);
+
+  /* ---------- 2. TYPEFACES --------------------------------------------- */
+  /* الخطوط الأصلية أولاً: ضع ملفاتك المرخّصة في assets/fonts وستُستخدم تلقائياً.
+     البدائل الحرة تحافظ على نفس النِّسب والوزن البصري. */
+  --f-display: "ALL EXP01 Nihaya", "Nihaya", "Rakkas", "Lalezar", serif;              /* العناوين العملاقة */
+  --f-heavy:   "GHAITHSANS", "Ghaith Sans", "Cairo", "Tajawal", sans-serif;           /* النص الثقيل / الأزرار */
+  --f-ui:      "RB", "RB Light", "IBM Plex Sans Arabic", "Almarai", sans-serif;       /* اللِيبلات الدقيقة */
+  --f-latin:   "Clash Display", "Space Grotesk", "Inter", sans-serif;                 /* الأرقام واللاتيني الكبير */
+  --f-micro:   "Inter", "IBM Plex Sans Arabic", sans-serif;                           /* ليبلات لاتينية 12px */
+
+  /* ---------- 3. TYPE SCALE (سائل: 390px ← → 1600px) -------------------- */
+  --display-xxl: clamp(88px, calc(6.777px + 20.8264vw), 340px); /* الشريط المتحرك */
+  --display-xl:  clamp(46px, calc(15.702px + 7.7686vw), 140px); /* H1 الهيرو */
+  --display-l:   clamp(56px, calc(19.901px + 9.2562vw), 168px); /* عنوان قسم مثبّت */
+  --display-m:   clamp(44px, calc(17.570px + 6.7769vw), 126px); /* عنوان قسم */
+  --display-s:   clamp(26px, calc(19.554px + 1.6529vw), 46px);  /* عنوان بطاقة */
+  --lead:        clamp(26px, calc(14.397px + 2.9752vw), 62px);  /* فقرة قيادية ثقيلة */
+  --heavy-m:     clamp(22px, calc(15.554px + 1.6529vw), 42px);  /* صف خدمة */
+  --heavy-s:     clamp(15px, calc(14.678px + 0.0826vw), 16px);  /* روابط التنقل */
+  --num-xl:      clamp(48px, calc(20.926px + 6.9421vw), 132px); /* رقم عملاق */
+  --num-m:       clamp(24px, calc(18.843px + 1.3223vw), 40px);  /* رقم الهاتف */
+  --label:       clamp(11px, calc(10.678px + 0.0826vw), 12px);  /* ليبل دقيق */
+
+  /* ---------- 4. LINE HEIGHT / TRACKING -------------------------------- */
+  --lh-tight:   .80;   /* العناوين العملاقة المضغوطة */
+  --lh-flat:    1.00;
+  --lh-snug:    1.30;
+  --lh-body:    1.50;
+  --lh-open:    1.60;  /* H1 العربي — مساحة للتشكيل والنقاط */
+  --lh-airy:    1.90;  /* عنوان قسم متنفّس */
+
+  --ls-tight:  -.04em;
+  --ls-snug:   -.03em;
+  --ls-soft:   -.01em;
+  --ls-micro:  -.02em;
+  --ls-wide:    .06em;
+
+  /* ---------- 5. SPACE ------------------------------------------------- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 40px; --s-8: 56px;
+
+  --gutter: clamp(20px, calc(3.240px + 4.2975vw), 72px);   /* هامش الصفحة */
+  --gap:    clamp(20px, calc(0.661px + 4.9587vw), 80px);   /* فراغ الشبكة */
+  --rhythm: clamp(28px, calc(13.818px + 3.6364vw), 72px);  /* فراغ داخلي بين العناصر */
+  --block:  clamp(56px, calc(28.926px + 6.9421vw), 140px); /* بين الكتل */
+  --section:clamp(64px, calc(26.612px + 9.5868vw), 180px); /* حشو القسم رأسياً */
+
+  /* ---------- 6. CONTAINER --------------------------------------------- */
+  --w-max:    1560px;  /* أقصى عرض للمحتوى */
+  --w-text:   72ch;    /* عرض قراءة مريح */
+  --w-narrow: 900px;
+  --header-h: 80px;
+
+  /* ---------- 7. RADIUS / BORDER --------------------------------------- */
+  --r-0:    0px;    /* الصور: حواف حادة — قرار تحريري */
+  --r-panel:11px;   /* لوحات المعلومات */
+  --r-pill: 20px;   /* الأقراص والليبلات */
+  --r-full: 999px;
+  --bw:     1px;
+  --bw-2:   2px;
+
+  /* ---------- 8. MOTION ------------------------------------------------ */
+  /* منحنى مستخرج من المرجع: زنبرك مفرط التخميد ≈ expo-out */
+  --ease-out:    cubic-bezier(.16, 1, .30, 1);
+  --ease-inout:  cubic-bezier(.44, 0, .56, 1);
+  --ease-in:     cubic-bezier(.55, 0, 1, .45);
+  --ease-soft:   cubic-bezier(.33, 1, .68, 1);
+
+  --d-instant: 120ms;
+  --d-fast:    200ms;
+  --d-base:    300ms;
+  --d-mid:     420ms;
+  --d-slow:    650ms;   /* مدة الكشف الأساسية في المرجع */
+  --d-xslow:   1000ms;
+  --d-hero:    1200ms;
+
+  --stagger:      70ms;  /* بين الأسطر */
+  --stagger-word: 45ms;  /* بين الكلمات */
+
+  --shift:      1.1em;  /* مسافة كشف النص من داخل القناع */
+  --shift-soft: 28px;   /* إزاحة العناصر غير النصية */
+  --scale-in:   1.08;   /* تكبير الصورة عند الدخول */
+  --parallax:   .12;    /* شدة البارالاكس (نسبة من ارتفاع العنصر) */
+  --marquee-speed: 100; /* بكسل/ثانية — مطابق للمرجع */
+  /* عدّاد أسطواني: ارتفاع الخانة أكبر قليلاً من 1em حتى لا تُقصّ الأرقام */
+  --odo-h:      1.1em;
+  --d-odo:      900ms;   /* مدة دوران الخانة الأولى */
+  --d-odo-step: 220ms;   /* زيادة لكل خانة تالية — تعطي إحساس التتابع */
+  --blur-max: 5px;      /* أقصى ضباب للعنوان المثبّت */
+
+  /* ---------- 9. Z-INDEX ----------------------------------------------- */
+  --z-base: 1; --z-sticky: 5; --z-header: 20; --z-overlay: 40; --z-cursor: 60;
+}
+
+/* أقسام فاتحة: نفس المكوّنات، أدوار لونية مقلوبة */
+[data-theme="light"] {
+  --bg: var(--c-stage);
+  --fg: var(--c-black);
+  --fg-muted: #14141499;
+  --rule: #14141433;
+  --accent: var(--c-black);
+}
+[data-theme="fog"] {
+  --bg: var(--c-fog);
+  --fg: var(--c-black);
+  --fg-muted: #14141499;
+  --rule: #14141426;
+  --accent: var(--c-black);
+}
+
+/* اتجاه: 1 = RTL، -1 = LTR — تُستخدم لقلب التحولات الاتجاهية */
+[dir="rtl"] { --dir: 1; }
+[dir="ltr"] { --dir: -1; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --d-instant:1ms; --d-fast:1ms; --d-base:1ms; --d-mid:1ms;
+    --d-slow:1ms; --d-xslow:1ms; --d-hero:1ms;
+    --stagger:0ms; --stagger-word:0ms;
+    --shift:0px; --shift-soft:0px; --scale-in:1; --parallax:0; --blur-max:0px;
+    --d-odo:1ms; --d-odo-step:0ms;
+  }
+}

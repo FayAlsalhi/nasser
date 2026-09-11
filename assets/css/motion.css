@@ -1,0 +1,136 @@
+/* ==========================================================================
+   MOTION — بدائيات الحركة
+   المبدأ: قناع + إزاحة + تتابع. لا "fade-in" عام.
+   القيم كلها من التوكنز: --d-slow / --ease-out / --stagger / --shift
+   ========================================================================== */
+
+/* الحالات الابتدائية تُطبَّق فقط عند توفر JS حتى لا يختفي المحتوى بدونه */
+.js [data-reveal]{ --i:0; }
+
+/* 1) كشف النص عبر قناع: كل سطر/كلمة داخل حاوية overflow:hidden */
+/* القناع أطول من صندوق السطر عمداً: العناوين تستخدم ارتفاع سطر 0.8، والحروف
+   العربية (صعود اللام، نزول الياء، الحركات) تتجاوزه فتُقصّ نهائياً — قياساً:
+   «اعمالي» حبرها 139px والقناع 86px، أي ٥٣px مقصوصة. الحشو يوسّع منطقة القص
+   والهامش السالب يلغي أثره على التخطيط فلا يتحرك شيء. */
+.line{ display:block; overflow:hidden;
+       padding-block:.3em; margin-block:-.3em; }
+.line__inner,
+.word__inner{
+  display:inline-block; will-change:transform;
+}
+.js .line__inner,
+.js .word__inner{
+  transform:translateY(var(--shift)) rotate(1.2deg);
+  opacity:0;
+  transition:
+    transform var(--d-slow) var(--ease-out) calc(var(--i) * var(--stagger)),
+    opacity   var(--d-mid)  var(--ease-out) calc(var(--i) * var(--stagger));
+}
+.is-in .line__inner,
+.is-in .word__inner,
+.line__inner.is-in,
+.word__inner.is-in{ transform:translateY(0) rotate(0); opacity:1; }
+
+.word{ display:inline-block; overflow:hidden; vertical-align:top;
+        padding-block:.3em; margin-block:-.3em; }
+.word--space{ inline-size:.28em; }
+
+/* تتابع الكلمات أسرع من تتابع الأسطر */
+.js .word__inner{
+  transition-delay:calc(var(--i) * var(--stagger-word));
+}
+
+/* 2) كشف عام لعنصر غير نصي (أزرار، ليبلات، بطاقات) */
+.js [data-reveal="up"]{
+  opacity:0; transform:translateY(var(--shift-soft));
+  transition:opacity var(--d-mid) var(--ease-out) calc(var(--i) * var(--stagger)),
+             transform var(--d-slow) var(--ease-out) calc(var(--i) * var(--stagger));
+}
+.js [data-reveal="up"].is-in{ opacity:1; transform:none; }
+
+.js [data-reveal="in"]{                       /* دخول جانبي واعٍ بالاتجاه */
+  opacity:0; transform:translateX(calc(var(--dir) * var(--shift-soft)));
+  transition:opacity var(--d-mid) var(--ease-out) calc(var(--i) * var(--stagger)),
+             transform var(--d-slow) var(--ease-out) calc(var(--i) * var(--stagger));
+}
+.js [data-reveal="in"].is-in{ opacity:1; transform:none; }
+
+/* 3) كشف الوسائط: ستارة تنزلق + تكبير معاكس
+      (نستخدم ستارة بدل clip-path لأن القص يمنع IntersectionObserver من رؤية العنصر) */
+.js [data-reveal="media"]{ position:relative; overflow:hidden; }
+.js [data-reveal="media"]::after{
+  content:""; position:absolute; inset:0; z-index:3;
+  background:var(--bg, #000);
+  transform:translateY(0);
+  transition:transform var(--d-xslow) var(--ease-out) calc(var(--i) * var(--stagger));
+  pointer-events:none;
+}
+.js [data-reveal="media"].is-in::after{ transform:translateY(101%); }
+.js [data-reveal="media"] img{
+  transform:scale(var(--scale-in));
+  transition:transform calc(var(--d-xslow) * 1.4) var(--ease-out) calc(var(--i) * var(--stagger));
+}
+.js [data-reveal="media"].is-in img{ transform:scale(1); }
+
+/* 4) كشف خط فاصل */
+.js [data-reveal="rule"]{
+  transform:scaleX(0); transform-origin:right;
+  transition:transform var(--d-slow) var(--ease-out) calc(var(--i) * var(--stagger));
+}
+[dir="ltr"] .js [data-reveal="rule"]{ transform-origin:left; }
+.js [data-reveal="rule"].is-in{ transform:scaleX(1); }
+
+/* 5) تسلسل تحميل الصفحة — الرأس ثم الهيرو */
+.js .page-in{ opacity:0; transition:opacity var(--d-mid) linear; }
+.js.is-ready .page-in{ opacity:1; }
+.js .hero__media{ transform:scale(1.12); transition:transform var(--d-hero) var(--ease-out); }
+.js.is-ready .hero__media{ transform:scale(1); }
+
+/* 6) عناصر مرتبطة بالتمرير (تُحدَّث من motion.js عبر متغيّرات) */
+[data-parallax]{ will-change:transform; }
+
+
+/* 7) عدّاد أسطواني — كل خانة شريط أرقام ينزلق للأعلى حتى يستقر على رقمها.
+      يُبنى بالـJS فقط: بدون JS يبقى الرقم نصاً عادياً مقروءاً. */
+.odo{ display:inline-flex; direction:ltr; unicode-bidi:isolate; }
+
+.odo__col{
+  display:block;
+  block-size:var(--odo-h);
+  overflow:hidden;              /* هو ما يخفي بقية الأرقام */
+}
+
+.odo__strip{ display:block; will-change:transform; }
+
+.odo__strip > span{
+  display:block;
+  block-size:var(--odo-h);
+  line-height:var(--odo-h);
+  text-align:center;
+}
+
+/* الحالة الابتدائية: أعلى الشريط (الصفر) ظاهر */
+.js .odo--ready .odo__strip{
+  transform:translateY(0);
+  transition:transform calc(var(--d-odo) + var(--i) * var(--d-odo-step)) var(--ease-out);
+}
+
+/* عند الدخول: ينزلق للأعلى بمقدار موضع الرقم النهائي */
+.js .odo--ready.is-in .odo__strip{
+  transform:translateY(calc(var(--pos) * var(--odo-h) * -1));
+}
+
+
+/* 8) كشف الكرت المتراكم: يدخل مستقيماً من الأسفل ثم يميل لزاويته.
+      نضع الميلان هنا لا في القاعدة، لأن أي transform على العنصر اللاصق
+      (sticky) يبطل التصاقه — فالغلاف يلتصق والكرت يميل. */
+.js [data-reveal="card"]{
+  opacity:0;
+  transform:translateY(var(--shift-soft)) rotate(0deg);
+  transition:opacity var(--d-mid) var(--ease-out) calc(var(--i) * var(--stagger)),
+             transform var(--d-xslow) var(--ease-out) calc(var(--i) * var(--stagger));
+}
+.js [data-reveal="card"].is-in{
+  opacity:1;
+  transform:translateY(0) rotate(var(--rot, 0deg));
+}

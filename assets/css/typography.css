@@ -1,0 +1,81 @@
+/* ==========================================================================
+   TYPOGRAPHY — نظام الطباعة
+   الخطوط الأصلية تُحمَّل محلياً إن وُجدت، وإلا تعمل البدائل الحرة تلقائياً.
+   ضع الملفات في assets/fonts/ بنفس الأسماء أدناه لتطابق المرجع ١٠٠٪.
+   ========================================================================== */
+
+@font-face{font-family:"ALL EXP01 Nihaya";src:url("../fonts/nihaya.woff2") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:"GHAITHSANS";src:url("../fonts/ghaithsans-extrabold.woff2") format("woff2");
+  font-weight:400 900;font-style:normal;font-display:swap;}
+@font-face{font-family:"RB";src:url("../fonts/rb-light.woff2") format("woff2");
+  font-weight:300;font-style:normal;font-display:swap;}
+
+/* --------------------------------------------------------------------------
+   الأدوار الطباعية — استخدم هذه الأصناف، لا تكتب أحجاماً مباشرة
+   -------------------------------------------------------------------------- */
+
+.t-display-xxl,
+.t-display-xl,
+.t-display-l,
+.t-display-m,
+.t-display-s{
+  font-family:var(--f-display);
+  font-weight:400;
+  color:inherit;
+  margin:0;
+  text-wrap:balance;
+}
+
+.t-display-xxl{ font-size:var(--display-xxl); line-height:var(--lh-flat);  letter-spacing:0; }
+.t-display-xl { font-size:var(--display-xl);  line-height:var(--lh-open);  letter-spacing:0; }
+.t-display-l  { font-size:var(--display-l);   line-height:var(--lh-tight); letter-spacing:var(--ls-soft); }
+.t-display-m  { font-size:var(--display-m);   line-height:var(--lh-tight); letter-spacing:var(--ls-tight); }
+.t-display-m--airy{ line-height:var(--lh-airy); letter-spacing:0; }
+.t-display-s  { font-size:var(--display-s);   line-height:var(--lh-snug);  letter-spacing:var(--ls-soft); }
+
+/* النص الثقيل — الفقرات القيادية وصفوف الخدمات والتنقّل */
+.t-lead{
+  font-family:var(--f-heavy); font-weight:400;
+  font-size:var(--lead); line-height:var(--lh-snug); letter-spacing:var(--ls-snug);
+  color:inherit; margin:0; text-wrap:pretty;
+}
+.t-heavy-m{
+  font-family:var(--f-heavy); font-weight:400;
+  font-size:var(--heavy-m); line-height:var(--lh-snug); letter-spacing:var(--ls-soft);
+  color:inherit; margin:0;
+}
+.t-heavy-s{
+  font-family:var(--f-heavy); font-weight:400;
+  font-size:var(--heavy-s); line-height:var(--lh-body); letter-spacing:var(--ls-micro);
+  color:inherit; margin:0;
+}
+
+/* الليبلات الدقيقة — الفاصل التحريري بين الكتل الكبيرة */
+.t-label{
+  font-family:var(--f-ui); font-weight:300;
+  font-size:var(--label); line-height:var(--lh-body); letter-spacing:var(--ls-micro);
+  text-transform:uppercase; color:inherit; margin:0;
+}
+.t-label--latin{ font-family:var(--f-micro); font-weight:400; }
+.t-label--wide { letter-spacing:var(--ls-wide); }
+.t-label--muted{ color:var(--fg-muted); }
+
+/* اللاتيني والأرقام */
+.t-num-xl{
+  font-family:var(--f-latin); font-weight:500;
+  font-size:var(--num-xl); line-height:var(--lh-flat); letter-spacing:var(--ls-tight);
+  color:inherit; margin:0; font-variant-numeric:lining-nums tabular-nums;
+}
+.t-num-m{
+  unicode-bidi:isolate;
+  font-family:var(--f-latin); font-weight:600;
+  font-size:var(--num-m); line-height:var(--lh-body); letter-spacing:0;
+  color:inherit; margin:0; font-variant-numeric:lining-nums;
+}
+
+/* توكيد داخل النص */
+.t-accent{ color:var(--accent); }
+
+/* الأرقام واللاتيني داخل نص عربي يبقيان دائماً بالخط اللاتيني وباتجاه صحيح */
+.num, .ltr{ font-family:var(--f-latin); direction:ltr; unicode-bidi:isolate; display:inline-block; }

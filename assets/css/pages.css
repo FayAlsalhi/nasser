@@ -1,0 +1,58 @@
+/* ==========================================================================
+   PAGES — تركيبات خاصة بكل صفحة (مبنية من نفس التوكنز)
+   ========================================================================== */
+
+/* ---------- الهيرو: حصر المحتوى داخل أقصى عرض حتى على الشاشات العملاقة --- */
+.hero__overlay{
+  padding-inline:max(var(--gutter), calc((100vw - var(--w-max)) / 2 + var(--gutter)));
+}
+.hero__title{ align-self:stretch; text-align:start; }
+
+/* صفوف الليبلات اللاتينية تُقرأ يسار←يمين حتى داخل صفحة RTL */
+.row--ltr{ direction:ltr; }
+.row--ltr .t-label:not(.t-label--latin){ direction:rtl; }
+
+/* بطاقة «اعمل منذ» تتداخل مع حافة الصورة */
+@media (max-width:720px){
+  .glass{ margin-block-start:calc(var(--rhythm) * -1) !important; }
+}
+
+/* ---------- صفحة «عني»: كلمتان عملاقتان تحيطان بالصورة ------------------ */
+.about-hero{
+  display:grid;
+  grid-template-columns:1fr minmax(0,46%) 1fr;
+  align-items:center;
+  column-gap:0;
+}
+.about-hero__img{ grid-column:2; z-index:0; }
+.about-hero__a,
+.about-hero__b{ position:relative; z-index:2; white-space:nowrap; }
+.about-hero__a{ grid-column:1; justify-self:end;   margin-inline-end:-.16em;  transform:translateY(-34%); }
+.about-hero__b{ grid-column:3; justify-self:start; margin-inline-start:-.16em; transform:translateY(34%); }
+
+@media (max-width:860px){
+  .about-hero{ grid-template-columns:1fr; row-gap:var(--s-4); }
+  .about-hero__img{ grid-column:1; order:2; }
+  .about-hero__a{ grid-column:1; order:1; justify-self:end;   margin:0; transform:none; }
+  .about-hero__b{ grid-column:1; order:3; justify-self:start; margin:0; transform:none; }
+}
+
+/* ---------- صفحة الألبوم: العنوان يعبر حافة الصورة ---------------------- */
+.album-title{
+  position:relative; z-index:2; text-align:center;
+  margin-block-start:calc(var(--display-l) * -.62);
+  mix-blend-mode:difference; color:var(--c-cream);
+  pointer-events:none;
+}
+
+/* ---------- الشريط السفلي --------------------------------------------- */
+.footer__mark .marquee__item{ color:var(--c-cream); line-height:1.3; }
+.footer{ padding-block-end:0; }
+
+/* ---------- صف الخدمات: ترقيم لاتيني ثابت اليسار ----------------------- */
+.service__num{ direction:ltr; }
+
+/* ---------- شبكة المعرض: إيقاع غير منتظم بدل صندوق منتظم ---------------- */
+@media (min-width:901px){
+  .grid--3 > .media:nth-child(3n+2){ margin-block-start:var(--block); }
+}
